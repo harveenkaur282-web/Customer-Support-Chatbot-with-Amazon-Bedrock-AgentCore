@@ -52,16 +52,7 @@ def invoke(rt, config, session_id, user_text, verbose=False):
                 )
             }
         },
-        tools=[{
-            "type": "agentcore_gateway",
-            "name": "support_gateway",
-            "config": {
-                "agentCoreGateway": {
-                    "gatewayArn": config["gateway_arn"]
-                }
-            },
-        }],
-        allowedTools=["@support_gateway"],
+        allowedTools=["@bugreports"],
         messages=[{
             "role": "user",
             "content": [{"text": user_text}]
