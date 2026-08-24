@@ -44,14 +44,20 @@ def invoke(rt, config, session_id, user_text, verbose=False):
     response = rt.invoke_harness(
         harnessArn=config["harness_arn"],
         runtimeSessionId=session_id,
-        model={
-            "bedrockModelConfig": {
-                "modelId": config.get(
-                    "model_id",
-                    "us.amazon.nova-pro-v1:0"
-                )
-            }
-        },
+
+        tools=[{
+            "type": "agentcore_gateway",
+            "name": "bugreports",
+            "config": {
+                "agentCoreGateway": {
+                    "gatewayArn": config["gateway_arn"],
+                    "outboundAuth": {
+                        "awsIam": {}
+                    }
+                }
+            },
+        }],
+        allowedTools=["bugreports___create_bug_report"],
         messages=[{
             "role": "user",
             "content": [{"text": user_text}]
