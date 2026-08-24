@@ -52,7 +52,7 @@ def invoke(rt, config, session_id, user_text, verbose=False):
                 )
             }
         },
-        allowedTools=["@bugreports"],
+
         messages=[{
             "role": "user",
             "content": [{"text": user_text}]
