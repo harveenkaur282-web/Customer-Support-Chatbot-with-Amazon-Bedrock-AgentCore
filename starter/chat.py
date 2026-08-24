@@ -57,7 +57,7 @@ def invoke(rt, config, session_id, user_text, verbose=False):
                 }
             },
         }],
-        allowedTools=["bugreports___create_bug_report"],
+        allowedTools=["*"],
         messages=[{
             "role": "user",
             "content": [{"text": user_text}]
