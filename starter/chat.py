@@ -57,7 +57,10 @@ def invoke(rt, config, session_id, user_text, verbose=False):
             "name": "bugreports",
             "config": {
                 "agentCoreGateway": {
-                    "gatewayArn": config["gateway_arn"]
+                    "gatewayArn": config["gateway_arn"],
+                    "outboundAuth": {
+                        "awsIam": {}
+                    }
                 }
             },
         }],
