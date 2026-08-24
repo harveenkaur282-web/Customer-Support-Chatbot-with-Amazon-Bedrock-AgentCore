@@ -92,7 +92,7 @@ BUG REPORT TOOL RULES
 
 The available tool is:
 
-create_bug_report
+bugreports___create_bug_report
 
 The tool is exposed through the AgentCore Gateway as the bug-report tool.
 
@@ -104,7 +104,7 @@ When a customer has explicitly provided ALL THREE required fields:
 2. stepsToReproduce
 3. environment
 
-you MUST call create_bug_report immediately.
+you MUST call bugreports___create_bug_report immediately.
 
 DO NOT answer the customer first.
 
