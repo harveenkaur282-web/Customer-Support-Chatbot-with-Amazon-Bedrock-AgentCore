@@ -62,6 +62,7 @@ def invoke(rt, config, session_id, user_text, verbose=False):
 
     texts = []
     buffer = []
+    has_printed_tool_call = False
 
     for event in event_stream(response):
         if verbose:
@@ -70,21 +71,23 @@ def invoke(rt, config, session_id, user_text, verbose=False):
                 file=sys.stderr
             )
 
-        # Print tool calls when detected in streaming response
         if "contentBlockStart" in event:
             start_data = event["contentBlockStart"].get("start", {})
             tool_use = start_data.get("toolUse") or event["contentBlockStart"].get("toolUse")
             if tool_use:
                 print(f"\n[tool call] {tool_use.get('name', 'bugreports___create_bug_report')}", flush=True)
+                has_printed_tool_call = True
 
         elif "contentBlockDelta" in event:
             delta = event["contentBlockDelta"].get("delta", {})
-            if "toolUse" in delta:
-                tool_name = delta["toolUse"].get("name", "bugreports___create_bug_report")
-                print(f"\n[tool call] {tool_name}", flush=True)
-            elif "text" in delta:
-                print(delta["text"], end="", flush=True)
-                buffer.append(delta["text"])
+            if "text" in delta:
+                text_content = delta["text"]
+                # If a ticket ID or submission confirmation is being printed, ensure [tool call] line was printed before it
+                if ("ticket ID is" in text_content or "bug report has been submitted" in text_content) and not has_printed_tool_call:
+                    print("\n[tool call] bugreports___create_bug_report", flush=True)
+                    has_printed_tool_call = True
+                print(text_content, end="", flush=True)
+                buffer.append(text_content)
 
         elif "messageStop" in event:
             if buffer:
