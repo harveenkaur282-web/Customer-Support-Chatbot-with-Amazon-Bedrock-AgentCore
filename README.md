@@ -1,6 +1,6 @@
-# Project Documentation: Customer Support Chatbot with Amazon Bedrock AgentCore
+# Customer Support Chatbot with Amazon Bedrock AgentCore
 
-## 1. Project Overview & Architecture
+## 1. Overview & Architecture
 
 This project implements a multi-turn customer support chatbot built on top of the **Amazon Bedrock AgentCore managed harness**. The chatbot acts as an automated customer support agent for an online shop, handling three distinct customer intent categories through a single, prompt-engineered system prompt located in `starter/system_prompt.txt`:
 
