@@ -83,7 +83,7 @@ The `create_bug_report` Lambda tool was tested directly and through the AgentCor
 
 ---
 
-## 5. Automated Testing & Comparative Evaluation Runs
+## 5. Testing & two Evaluation Runs performed 
 
 To thoroughly evaluate model performance and guard against overfitting, two evaluation runs were conducted using Amazon Nova Pro (LLM-as-a-judge):
 
@@ -99,7 +99,7 @@ To thoroughly evaluate model performance and guard against overfitting, two eval
 
 ---
 
-## 6. Submission Screenshots Index
+## 6. screenshots
 
 All required evidence screenshots are stored in `starter/screenshots/`:
 
