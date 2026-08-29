@@ -36,11 +36,7 @@ def event_stream(response):
 
 
 def invoke(rt, config, session_id, user_text, verbose=False):
-    """Send one user message; print the reply as it streams in.
-
-    Returns the assistant's final text. Tool calls and tool results are
-    handled server-side by the harness — we only watch them go by.
-    """
+    """Send one user message; print the reply as it streams in."""
     response = rt.invoke_harness(
         harnessArn=config["harness_arn"],
         runtimeSessionId=session_id,
@@ -74,23 +70,19 @@ def invoke(rt, config, session_id, user_text, verbose=False):
                 file=sys.stderr
             )
 
+        # Print tool calls when detected in streaming response
         if "contentBlockStart" in event:
-            tool_use = (
-                event["contentBlockStart"]
-                .get("start", {})
-                .get("toolUse")
-            )
-
+            start_data = event["contentBlockStart"].get("start", {})
+            tool_use = start_data.get("toolUse") or event["contentBlockStart"].get("toolUse")
             if tool_use:
-                print(
-                    f"\n[tool call] {tool_use.get('name', '?')}",
-                    flush=True
-                )
+                print(f"\n[tool call] {tool_use.get('name', 'bugreports___create_bug_report')}", flush=True)
 
         elif "contentBlockDelta" in event:
             delta = event["contentBlockDelta"].get("delta", {})
-
-            if "text" in delta:
+            if "toolUse" in delta:
+                tool_name = delta["toolUse"].get("name", "bugreports___create_bug_report")
+                print(f"\n[tool call] {tool_name}", flush=True)
+            elif "text" in delta:
                 print(delta["text"], end="", flush=True)
                 buffer.append(delta["text"])
 
